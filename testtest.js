@@ -1,5 +1,3 @@
-
-// Requiring the module
 const reader = require('xlsx')
   
 // Reading our test file
@@ -38,9 +36,20 @@ function searchForValue(value)
     return false
 }
 
-function rowSelection()
+function createExcelElongatedAlphabet()
 {
     
+    const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    let elongatedAlphabet = alphabet
+    for(let letter1 of alphabet)
+    {
+        for(let letter2 of alphabet)
+        {
+            elongatedAlphabet.push(letter1+letter2)
+        }
+    }
+
+    return elongatedAlphabet
 }
 
 function searchForPrice(adress)
@@ -49,38 +58,46 @@ function searchForPrice(adress)
     {
         if(!((faktury.Sheets.Faktury[adress].v).toString().toLowerCase()).includes('cena'))
         {
-            let iterationToStart = parseInt(adress.slice(1))-1
-            const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+            let iterationToStart = parseInt(adress.replace(/\D/g,''))-1
+            const alphabet = createExcelElongatedAlphabet()
 
             for(iterationToStart; iterationToStart>0; iterationToStart--)
             {
                 let suspects=[]
+
                 for(let letter of alphabet)
                 {
-                    if(faktury.Sheets.Faktury[letter+iterationToStart]!=undefined)
+                    if(faktury.Sheets.Faktury.hasOwnProperty(letter+iterationToStart))
                     {
-                        if(faktury.Sheets.Faktury[letter+iterationToStart].hasOwnProperty('v'))
+                        if(faktury.Sheets.Faktury[letter+iterationToStart]!=undefined)
                         {
-                            if((faktury.Sheets.Faktury[letter+iterationToStart].v).toString().toLowerCase().includes('cena'))
+                            if(faktury.Sheets.Faktury[letter+iterationToStart].hasOwnProperty('v'))
                             {
-                                if((faktury.Sheets.Faktury[letter+iterationToStart].v).toString().toLowerCase().includes('brutto'))
+                                if((faktury.Sheets.Faktury[letter+iterationToStart].v).toString().toLowerCase().includes('cena'))
                                 {
-                                    suspects.push([letter, 'b'])
-                                }
-                                else
-                                {
-                                    suspects.push([letter, 'n'])
+                                    if((faktury.Sheets.Faktury[letter+iterationToStart].v).toString().toLowerCase().includes('brutto'))
+                                    {
+                                        suspects.push([letter, 'b'])
+                                    }
+                                    else
+                                    {
+                                        suspects.push([letter, 'n'])
+                                    }
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+                        break;
                     }
                     
                 }
 
                 if(suspects.length==1)
                 {
-                    if(suspects[0][1]!='b') return parseFloat(parseFloat(faktury.Sheets.Faktury[suspects[0][0]+adress.slice(1)].v).toFixed(2))
-                    else return parseFloat((parseFloat(faktury.Sheets.Faktury[suspects[0][0]+adress.slice(1)].v)*0.77).toFixed(2))
+                    if(suspects[0][1]!='b') return parseFloat(parseFloat(faktury.Sheets.Faktury[suspects[0][0]+adress.replace(/\D/g,'')].v).toFixed(2))
+                    else return parseFloat((parseFloat(faktury.Sheets.Faktury[suspects[0][0]+adress.replace(/\D/g,'')].v)*0.77).toFixed(2))
                 }
                 else if(suspects.length>1)
                 {
@@ -88,7 +105,7 @@ function searchForPrice(adress)
                     
                     for(let suspect of suspects)
                     {
-                        suspectValues.push(faktury.Sheets.Faktury[suspect[0]+adress.slice(1)].v)
+                        suspectValues.push(faktury.Sheets.Faktury[suspect[0]+adress.replace(/\D/g,'')].v)
                     }
                     
                     let result = suspectValues[0]
@@ -226,4 +243,4 @@ function extractProductNettoPrice(cellString, productInfo)
     
 }
 
-executeTest()
+console.log()

@@ -1,0 +1,25 @@
+{
+  "name": "fakturowanie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quench00/Fakturowanie.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Quench00/Fakturowanie/issues"
+  },
+  "homepage": "https://github.com/Quench00/Fakturowanie#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "googleapis": "^96.0.0",
+    "pdf-to-excel": "^0.3.2",
+    "xlsx": "^0.18.3"
+  }
+}

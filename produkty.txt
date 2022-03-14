@@ -1,1 +1,0 @@
-{"Numer Faktury":"WZ DO FV NR 1/SP-HU/2/2022","Nazwa produktu":"Trymer PHILIPS Multigroom MG7720/15","EAN":8710103786610,"SKU":"MG7720/15","Cena zakupu netto":"CENA1","Cena zakupu brutto":"CENA2","Ilość":1}

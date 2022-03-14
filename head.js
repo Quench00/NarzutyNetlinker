@@ -1,12 +1,11 @@
-const executeForProduct = require('./priceFindingProcess')
-const fs = require('fs')
+// Requiring the module
 const reader = require('xlsx')
+const executeForProduct = require('./priceFindingProcess')
+const priceFindingProcess=require('./priceFindingProcess')
+  
+// Reading our test file
 const produkty = reader.readFile('./Produkty.xlsx')
-const used = process.memoryUsage().heapUsed / 1024 / 1024;
-console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
-
-const stream = fs.createWriteStream("./produkty.txt");
-
+const faktury = reader.readFile('./Faktury.xlsx')
 
 function getProductsArr()
 {
@@ -23,26 +22,34 @@ function getProductsArr()
     return data
 }
 
-
-function allProductsExecute()
+function executeTest()
 {
-    
-    const products=getProductsArr()
-    
-    stream.once('open', async function(fd) {
-        let iteration=1
-        for(let product of products)
+    const products = getProductsArr()
+
+    let productsCompleted=[] 
+    let iteration=1
+    let notFound=[]
+    for(let product of products)
+    {
+        product=executeForProduct(product)
+        if(isNaN(product['Cena zakupu netto']))
         {
-          executeForProduct(product)
-          const used = process.memoryUsage().heapUsed / 1024 / 1024;
-console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
-          stream.write(JSON.stringify(product))
-          console.log('Wyszukano '+iteration+' z '+products.length+' produktów')
-          iteration++
+            notFound.push(product)
         }
-        stream.end();
-        console.log('gotowe!')
-      });
+        productsCompleted.push(product)
+        console.log('Dodano '+iteration+'/'+products.length +' produktów.')
+        iteration++
+    }
+
+    const ws = reader.utils.json_to_sheet(productsCompleted)
+  
+    reader.utils.book_append_sheet(produkty, ws ,"Produkty uzupełnione")
+    reader.writeFile(produkty,'./Produkty.xlsx')
+    console.log('ukończono')
+    console.log('liczba nieznalezionych: '+ notFound.length + '. Stopień sukcesu: '+ parseFloat(((products.length-notFound.length)/products.length*100).toFixed(2)))
+
 }
 
-allProductsExecute()
+executeTest()
+
+

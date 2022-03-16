@@ -1,0 +1,27 @@
+{
+  "name": "Netlinker narzuty",
+  "description": "Rozszerzenie pomagające dodawać nowe cenniki do netlinkera",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts":[{
+    "matches":["https://www.google.com/"],
+    "js":["scripts/core.js"]
+  }],
+  "icons": {
+  "48":"./images/narzuty48.png",
+  "72":"./images/narzuty72.png",
+  "96":"./images/narzuty96.png",
+  "144":"./images/narzuty144.png",
+  "168":"./images/narzuty168.png",
+  "192":"./images/narzuty192.png"
+  },
+  "action": {
+
+  "default_title": "KiedyBędzie?",
+  "default_popup": "./scripts/popup.html"
+  },
+  "permissions": ["tabs"],
+  "background":{
+    "script":"scripts/background.js"
+  }
+}

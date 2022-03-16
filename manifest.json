@@ -20,8 +20,19 @@
   "default_title": "KiedyBędzie?",
   "default_popup": "./scripts/popup.html"
   },
-  "permissions": ["tabs"],
+  "permissions": [
+    "tabs",
+    "scripting",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://silesia.netlinker.pro/only-store-baselinker/configuration-shops?modal=price-calculator-configuration-shop"
+  ],
   "background":{
     "script":"scripts/background.js"
-  }
+  },
+  "web_accessible_resources": [{
+    "resources": ["functions.js"],
+    "matches": ["<all_urls>"]
+  }]
 }

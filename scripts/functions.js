@@ -41,15 +41,44 @@ return result;
 }
 
 
-// function deleteOldData()
-// {
-// 	let number=document.querySelectorAll("td:nth-child(5) > div > i").length;
+function deleteButton()
+{
+    function collapseFirstRange()
+    {
+        return document.querySelectorAll("i.tree-arrow.has-child.ltr")[0].click()
+    }
 
-// 	for(let i=0; i<number; i++)
-// 	{
-// 		$("td:nth-child(5) > div > i").click();
-// 	}
-// }
+    function deleteRange(number)
+    {
+        return document.querySelectorAll("i.icon.icon-cross.ml-10.cl-red")[number-1].click()
+    }
+
+    function getNumberOfRangesToDelete()
+    {
+        return document.querySelectorAll("i.icon.icon-cross.ml-10.cl-red").length 
+    }
+
+    async function wait()
+    {
+        return new Promise(resolve => {setTimeout(resolve, 5)})
+    }
+
+    async function deleteOldData()
+    {
+        const numberOfRangesToDelete=getNumberOfRangesToDelete()
+
+        for(let range=numberOfRangesToDelete; range>=0; range--)
+        {
+            deleteRange(range)
+            await wait()
+        }
+
+        collapseFirstRange()
+    }
+
+    deleteOldData()
+
+}
 
 function expandRange(number)
 {

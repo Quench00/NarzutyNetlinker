@@ -16,7 +16,6 @@
   "192":"./images/narzuty192.png"
   },
   "action": {
-
   "default_title": "KiedyBędzie?",
   "default_popup": "./scripts/popup.html"
   },

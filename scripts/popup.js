@@ -12,6 +12,18 @@ document.addEventListener('DOMContentLoaded',function(){
             });    
         }) 
     }, false)
+
+    document.querySelector('#closeButton').addEventListener('click',function(){
+        chrome.tabs.query({currentWindow: true, active: true},
+        function (tabs){
+            const tabId = tabs[0].id;
+            chrome.scripting.executeScript(
+            {
+                target: {tabId: tabId},
+                func: deleteButton
+            });    
+        }) 
+    }, false)
 }, false)
 
 function everything(actualUserInput)
@@ -57,17 +69,6 @@ function everything(actualUserInput)
 
     return result;
     }
-
-
-    // function deleteOldData()
-    // {
-    // 	let number=document.querySelectorAll("td:nth-child(5) > div > i").length;
-
-    // 	for(let i=0; i<number; i++)
-    // 	{
-    // 		$("td:nth-child(5) > div > i").click();
-    // 	}
-    // }
 
     function expandRange(number)
     {
@@ -115,7 +116,7 @@ function everything(actualUserInput)
 
     async function wait()
     {
-    return new Promise(resolve => {setTimeout(resolve, 5)})
+        return new Promise(resolve => {setTimeout(resolve, 5)})
     }
 
     async function addNewPriceList(userInput)
@@ -136,4 +137,44 @@ function everything(actualUserInput)
     }
 
     addNewPriceList(actualUserInput)
+}
+
+
+function deleteButton()
+{
+    function collapseFirstRange()
+    {
+        return document.querySelectorAll("i.tree-arrow.has-child.ltr")[0].click()
+    }
+
+    function deleteRange(number)
+    {
+        return document.querySelectorAll("i.icon.icon-cross.ml-10.cl-red")[number-1].click()
+    }
+
+    function getNumberOfRangesToDelete()
+    {
+        return document.querySelectorAll("i.icon.icon-cross.ml-10.cl-red").length 
+    }
+
+    async function wait()
+    {
+        return new Promise(resolve => {setTimeout(resolve, 5)})
+    }
+
+    async function deleteOldData()
+    {
+        const numberOfRangesToDelete=getNumberOfRangesToDelete()
+
+        for(let range=numberOfRangesToDelete; range>=0; range--)
+        {
+            deleteRange(range)
+            await wait()
+        }
+
+        collapseFirstRange()
+    }
+
+    deleteOldData()
+
 }

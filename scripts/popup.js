@@ -104,7 +104,9 @@ function everything(actualUserInput)
 
     function setRoundingto99(number)
     {
-        return document.querySelectorAll(".fb-input__field")[7*(number-1)+5].value=true
+        
+        document.querySelectorAll(".fb-input__field")[7*(number-1)+5].focus()
+        return document.execCommand('insertText', true, '')
     }
 
     function setAddedAmount(number, amount)

@@ -135,7 +135,7 @@ function everything(actualUserInput)
         for(let i=1; i<=output.length; i++){
             expandRange(i)
             await wait()
-            addSingleRange(i, output[i-1][0], output[i-1][1], 2, parseFloat(output[i-1][2]))
+            addSingleRange(i, output[i-1][0], output[i-1][1], 2, parseFloat(parseFloat(output[i-1][2]).toFixed(2)))
 
             if(i<output.length)
             {

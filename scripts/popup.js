@@ -82,17 +82,24 @@ function everything(actualUserInput)
 
     function setPriceBruttoFrom(number, priceBruttoFrom)
     {
-        return document.querySelectorAll(".fb-input__field.ml-5")[number-1].value=priceBruttoFrom
+        document.querySelectorAll(".fb-input__field.ml-5")[number-1].focus()
+        document.querySelectorAll(".fb-input__field.ml-5")[number-1].select()
+        return document.execCommand('insertText', false, priceBruttoFrom)
     }
 
     function setMultiplier(number, multiplier)
     {
-        return document.querySelectorAll(".fb-input__field")[7*(number-1)+1].value=multiplier
+        document.querySelectorAll(".fb-input__field")[7*(number-1)+1].focus()
+        document.querySelectorAll(".fb-input__field")[7*(number-1)+1].select()
+        return document.execCommand('insertText', false, multiplier)
     }
 
     function setToFixed(number, places)
     {
-        return document.querySelectorAll(".fb-input__field")[7*(number-1)+2].value=places
+        document.querySelectorAll(".fb-input__field")[7*(number-1)+2].focus()
+        document.querySelectorAll(".fb-input__field")[7*(number-1)+2].select()
+        return document.execCommand('insertText', false, places)
+
     }
 
     function setRoundingto99(number)
@@ -102,7 +109,9 @@ function everything(actualUserInput)
 
     function setAddedAmount(number, amount)
     {
-        return document.querySelectorAll(".fb-input__field")[7*(number-1)+6].value=amount
+        document.querySelectorAll(".fb-input__field")[7*(number-1)+6].focus()
+        document.querySelectorAll(".fb-input__field")[7*(number-1)+6].select()
+        return document.execCommand('insertText', false, amount)
     }
 
     function addSingleRange(number, priceBruttoFrom, multiplier, places, amount)
@@ -126,7 +135,7 @@ function everything(actualUserInput)
         for(let i=1; i<=output.length; i++){
             expandRange(i)
             await wait()
-            addSingleRange(i, output[i-1][0], output[i-1][1], 2, output[i-1][2])
+            addSingleRange(i, output[i-1][0], output[i-1][1], 2, parseFloat(output[i-1][2]))
 
             if(i<output.length)
             {
